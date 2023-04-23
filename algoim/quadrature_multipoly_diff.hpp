@@ -88,16 +88,24 @@ namespace algoim
     template<int N>
     struct ImplicitPolyQuadratureDiff : public ImplicitPolyQuadrature<N>
     {
+        // The using statements avoid the need for this-> to access base-class members
+        enum IntegralType { Inner, OuterSingle, OuterAggregate };
+        using ImplicitPolyQuadrature<N>::phi;
+        using ImplicitPolyQuadrature<N>::k;
+        using ImplicitPolyQuadrature<N>::base;
+        using ImplicitPolyQuadrature<N>::auto_apply_TS;
+        using ImplicitPolyQuadrature<N>::type;
+        using ImplicitPolyQuadrature<N>::base_other;
         PolySet<N,ALGOIM_M> phi_dot;                                            // Derivatives of phi w.r.t. coefficients
         ImplicitPolyQuadratureDiff<N-1> base_dot;                               // Derivative of base polynomials corresponding to removal of axis k
         std::array<std::tuple<int,ImplicitPolyQuadratureDiff<N-1>>,N-1> base_other_dot; // Stores derivatives of other base cases, besides k, when in aggregate mode    
 
         // Default ctor sets to an uninitialised state
-        ImplicitPolyQuadratureDiff() : ImplicitPolyQuadrature() {}
+        ImplicitPolyQuadratureDiff() : ImplicitPolyQuadrature<N>() {}
 
-        ImplicitPolyQuadratureDiff(const xarray<real,N>&) = delete;
+        //ImplicitPolyQuadratureDiff(const xarray<real,N>&) = delete;
 
-        ImplicitPolyQuadratureDiff(const ImplicitPolyQuadrature&) = delete;
+        //ImplicitPolyQuadratureDiff(const ImplicitPolyQuadrature&) = delete;
 
         // Build differentiated quadrature hierarchy for a domain implicitly defined by a single polynomial
         // Note: we could call base-class ctor, but we prefer p_dot to be pushed back at the same time as p
@@ -216,8 +224,8 @@ namespace algoim
             }
         }
     
-    private:
-        using ImplicitPolyQuadrature::ImplicitPolyQuadrature;
+    //private:
+    //    using ImplicitPolyQuadrature::ImplicitPolyQuadrature;
     };
     
     template<> struct ImplicitPolyQuadratureDiff<0> {};

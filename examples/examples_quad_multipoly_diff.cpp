@@ -6,7 +6,7 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
-#include "quadrature_multipoly.hpp"
+#include "quadrature_multipoly_diff.hpp"
 
 using namespace algoim;
 
@@ -23,7 +23,7 @@ void qConv(const Phi& phi, real xmin, real xmax, uvector<int,N> P, const F& inte
     bernstein::bernsteinInterpolate<N>([&](const uvector<real,N>& x) { return phi(xmin + x * (xmax - xmin)); }, phipoly);
 
     // Build quadrature hierarchy
-    ImplicitPolyQuadrature<N> ipquad(phipoly);
+    ImplicitPolyQuadratureDiff<N> ipquad(phipoly);
 
     // Functional to evaluate volume and surface integrals of given integrand
     real volume, surf;
