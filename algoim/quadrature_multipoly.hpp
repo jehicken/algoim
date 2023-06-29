@@ -775,6 +775,8 @@ namespace algoim
                         {
                             using std::abs;
                             using duals::abs;
+                            using std::max;
+                            using duals::max;
                             uvector<T,N> g = bernstein::evalBernsteinPolyGradient(p, x);
                             if (type == OuterAggregate)
                             {
@@ -790,7 +792,8 @@ namespace algoim
                                 // between the gradient calculation of original polynomial, and that of the roots computed from
                                 // pline; when near high-multiplicity roots, this simple method can break down; other, more
                                 // sophisticated methods should be used in such cases, but these are not implemented here
-                                f(x, w * alpha, set_component<T,N>(T(0), k_active, w * util::sign(g(k_active))));
+                                f(x, w * alpha, set_component<T,N>(T(0), k_active, w * util::sign(g(k_active))));        
+                                std::cout << "w = " << w << std::endl;                        
                             }
                             else
                             {

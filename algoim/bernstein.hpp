@@ -392,8 +392,8 @@ namespace algoim::bernstein
                     beta.a(n+1) = alpha.a(n);
                     for (int k = 1; k <= n; ++k)
                     {
-                        beta.a(k) = alpha.a(k - 1) * (real(k) / real(n + 1));
-                        beta.a(k) += alpha.a(k) * (real(1) - real(k) / real(n + 1));
+                        beta.a(k) = alpha.a(k - 1) * (T(k) / T(n + 1));
+                        beta.a(k) += alpha.a(k) * (T(1) - T(k) / T(n + 1));
                     }
                     return;
                 }
@@ -402,9 +402,9 @@ namespace algoim::bernstein
                 const real* bnr = Binomial::row(n + r);
                 for (int k = 0; k <= n + r; ++k)
                 {
-                    beta.a(k) = 0.0;
+                    beta.a(k) = T(0);
                     for (int j = std::max(0, k - r); j <= std::min(n, k); ++j)
-                        beta.a(k) += alpha.a(j) * ((br[k-j] * bn[j]) / bnr[k]);
+                        beta.a(k) += alpha.a(j) * T((br[k-j] * bn[j]) / bnr[k]);
                 }
             }
         }
@@ -463,7 +463,7 @@ namespace algoim::bernstein
         {
             int P = alpha.ext(0) - 1;
             T *a, *b;
-            algoim_spark_alloc(real, &a, P, &b, P);
+            algoim_spark_alloc(T, &a, P, &b, P);
             a[0] = 1;
             b[P-1] = 1;
             for (int k = 1; k < P; ++k)
@@ -631,8 +631,8 @@ namespace algoim::bernstein
     };
 
     // Interpolate tensor-product data f, assumed to be nodal values at the same nodes returned by modifiedChebyshevNode()
-    template<int N, bool B = false>
-    void bernsteinInterpolate(const xarray<real,N>& f, real tol, xarray<real,N>& out)
+    template<int N, bool B = false, typename T = real>
+    void bernsteinInterpolate(const xarray<T,N>& f, real tol, xarray<T,N>& out)
     {
         assert(all(out.ext() == f.ext()));
         if constexpr (N == 1 || B)
@@ -641,13 +641,13 @@ namespace algoim::bernstein
             int O = prod(f.ext(), 0);
             assert(P >= 1 && O >= 1);
 
-            real *tmp;
-            algoim_spark_alloc(real, &tmp, P * O);
+            T *tmp;
+            algoim_spark_alloc(T, &tmp, P * O);
 
             auto svd = BernsteinVandermondeSVD::get(P);
 
             for (int i = 0; i < P * O; ++i)
-                tmp[i] = 0.0;
+                tmp[i] = T(0);
             for (int i = 0; i < P; ++i)
                 for (int j = 0; j < P; ++j)
                     for (int k = 0; k < O; ++k)
@@ -661,7 +661,7 @@ namespace algoim::bernstein
                     tmp[i*O + k] *= alpha;
             }
 
-            out = 0;
+            out = T(0);
             for (int i = 0; i < P; ++i)
                 for (int j = 0; j < P; ++j)
                     for (int k = 0; k < O; ++k)
@@ -669,20 +669,20 @@ namespace algoim::bernstein
         }
         else
         {
-            xarray<real,N> gamma(nullptr, f.ext());
-            algoim_spark_alloc(real, gamma);        
-            bernsteinInterpolate<2,true>(f.flatten(), tol, gamma.flatten().ref());
+            xarray<T,N> gamma(nullptr, f.ext());
+            algoim_spark_alloc(T, gamma);        
+            bernsteinInterpolate<2,true,T>(f.flatten(), tol, gamma.flatten().ref());
             for (int i = 0; i < f.ext(0); ++i)
                 bernsteinInterpolate(gamma.slice(i), tol, out.slice(i).ref());
         }
     }
 
     // Interpolate a functional through its nodal evaluation at the modifiedChebyshevNode() points
-    template<int N, typename F>
-    void bernsteinInterpolate(F&& f, xarray<real,N>& out)
+    template<int N, typename F, typename T = real>
+    void bernsteinInterpolate(F&& f, xarray<T,N>& out)
     {
-        xarray<real,N> ff(nullptr, out.ext());
-        algoim_spark_alloc(real, ff);
+        xarray<T,N> ff(nullptr, out.ext());
+        algoim_spark_alloc(T, ff);
         for (auto i = ff.loop(); ~i; ++i)
         {
             uvector<real,N> x;

@@ -38,7 +38,7 @@ int main(int argc, char* argv[])
     ImplicitPolyQuadrature<1> ipquad(phipoly);
 
     // Compute quadrature scheme and record the nodes & weights; phase0 corresponds to
-    // {phi < 0}, phase1 corresponds to {phi > 0}, and surf corresponds to {phi == 0}.
+    // {phi < 0}, phase1 corresponds to {phi > 0}.
     std::vector<uvector<real,2>> phase0, phase1;
     ipquad.integrate(AutoMixed, q, [&](const uvector<real,1>& x, real w)
     {
@@ -79,6 +79,7 @@ int main(int argc, char* argv[])
             dwts1[j] = -algoim::GaussQuad::w(q,j) * drootdalpha;
         }
 
+        // Prepare to compute the derivatives using dual numbers
         xarray<duald,1> phipoly_dot(nullptr, P);
         algoim_spark_alloc(duald, phipoly_dot);
         for (int i = 0; i < phipoly.size(); ++i)
@@ -93,8 +94,7 @@ int main(int argc, char* argv[])
         ImplicitPolyQuadrature<1,duald> ipquad_dot(phipoly_dot);
 
         // Compute quadrature derivatives and record the nodes & weights; phase0 corresponds to
-        // {phi < 0}, phase1 corresponds to {phi > 0}, and surf corresponds to {phi == 0}.
-        //std::vector<uvector<adouble,2>> phase0_dot, phase1_dot;
+        // {phi < 0}, phase1 corresponds to {phi > 0}.
         std::vector<duald> phase0_pts, phase0_wts, phase1_pts, phase1_wts;
         ipquad_dot.integrate(AutoMixed, q, [&](const uvector<duald,1>& x, duald w)
         {
