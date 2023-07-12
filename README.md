@@ -31,10 +31,10 @@ publicly and display publicly, and to permit others to do so.
 
 License for Algoim can be found at [LICENSE](LICENSE).
 
-License for cppduals can be found at [LICENSE](CPPDUALS_LICENSE)
+License for cppduals can be found at [LICENSE](CPPDUALS_LICENSE.txt).
 
 ## Citations 
 
 To cite Algoim, please follow the guide on the [Algoim GitHub page](https://algoim.github.io/).
 
-To cite cppduals, please consider [![DOI](https://joss.theoj.org/papers/10.21105/joss.01487/status.svg)](https://doi.org/10.21105/joss.01487)
+To cite cppduals, please consider [![DOI](https://joss.theoj.org/papers/10.21105/joss.01487/status.svg)](https://doi.org/10.21105/joss.01487).
