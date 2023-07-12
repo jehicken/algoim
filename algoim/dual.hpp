@@ -418,6 +418,9 @@ struct promote<U, std::complex<T>,
 #ifdef EIGEN_PI
 #define MY_PI EIGEN_PI
 #else
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
 #define MY_PI M_PI
 #endif
 
