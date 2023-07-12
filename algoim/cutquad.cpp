@@ -10,7 +10,7 @@
 using namespace algoim;
 using namespace duals;
 
-template<int N, typename T = real>
+template<int N, typename T = double>
 void calc_cut_quad(T (*phi)(jlcxx::ArrayRef<T>), int q, int bernstein_degree,
                    const jlcxx::ArrayRef<T> x_min,
                    const jlcxx::ArrayRef<T> x_max, jlcxx::ArrayRef<T> x_work,
@@ -69,7 +69,7 @@ void calc_cut_quad(T (*phi)(jlcxx::ArrayRef<T>), int q, int bernstein_degree,
         });
 };
 
-template<int N, typename T = real>
+template<int N, typename T = double>
 void diff_cut_quad(T (*phi)(jlcxx::ArrayRef<T>), T (*dphi)(jlcxx::ArrayRef<T>), 
                    int q, int bernstein_degree, const jlcxx::ArrayRef<T> x_min, 
                    const jlcxx::ArrayRef<T> x_max, jlcxx::ArrayRef<T> x_work,
