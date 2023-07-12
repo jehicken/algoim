@@ -5,10 +5,10 @@ For a description, examples, and install instructions, see the [Algoim GitHub pa
 
 ## Modifications
 
-This folk is a slightly modified of version of Saye's original library.  The two main additions are as follows:
+This folk is a slightly modified version of Saye's original library.  The two main additions are as follows:
 
 1. We differentiated `algoim/quadrature_multipoly.hpp` and its dependencies using [cppduals](https://tesch1.gitlab.io/cppduals/index.html), except for those
-   parts that rely on LAPACk routines.  For the LAPACK routines we had to do some old-fashioned "hand-differentiation."  cppduals
+   parts that rely on LAPACK routines.  For the LAPACK routines we had to do some old-fashioned "hand-differentiation."  cppduals
    is a header-only library, and it is included directly as `algoim/dual.hpp`.
 3. We added `algoim/cutquad.hpp` and `algoim/cutquad.cpp` in order to faciliate wrapping the quadrature routines
    in Julia.
