@@ -16,6 +16,10 @@
 #define CPPDUALS_DUAL
 
 #ifndef PARSED_BY_DOXYGEN
+#ifdef _WIN32
+  // Required to access M_PI on windows machines
+  #define _USE_MATH_DEFINES
+#endif
 #include <cmath>
 #include <ctgmath>
 #include <limits>
@@ -418,9 +422,6 @@ struct promote<U, std::complex<T>,
 #ifdef EIGEN_PI
 #define MY_PI EIGEN_PI
 #else
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
-#endif
 #define MY_PI M_PI
 #endif
 
