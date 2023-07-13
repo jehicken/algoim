@@ -16,10 +16,6 @@
 #define CPPDUALS_DUAL
 
 #ifndef PARSED_BY_DOXYGEN
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
-  // Required to access M_PI on windows machines
-  #define _USE_MATH_DEFINES
-#endif
 #include <cmath>
 #include <ctgmath>
 #include <limits>
