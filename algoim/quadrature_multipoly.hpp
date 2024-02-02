@@ -437,12 +437,13 @@ namespace algoim
 
         // Compute the 'score' across all dimensions
         template<int N, typename T = real>
-        uvector<T,N> score_estimate(PolySet<N,ALGOIM_M,T>& phi, uvector<bool,N>& disc)
+        uvector<T,N> score_estimate(PolySet<N,ALGOIM_M,T>& phi, uvector<bool,N>& has_disc)
         {
             static_assert(N > 1, "score_estimate of practical use only with N > 1");
             using std::abs;
             using duals::abs;
             uvector<T,N> s = 0;
+            has_disc = false;
             // For every phi(i) ...
             for (int i = 0; i < phi.count(); ++i)
             {
@@ -471,7 +472,7 @@ namespace algoim
                 {
                     bernstein::elevatedDerivative(p, k, p_k);
                     auto disc_mask = intersectionMask(p, mask, p_k, mask);
-                    disc(k) = !maskEmpty(disc_mask);
+                    has_disc(k) |= !maskEmpty(disc_mask);
                 }
             }
             return s;
