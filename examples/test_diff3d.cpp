@@ -1,4 +1,4 @@
-// Simple test of differentiation of two-dimensional quadrature rules
+// Simple test of differentiation of three-dimensional quadrature rules
 
 #include <iostream>
 #include <iomanip>
