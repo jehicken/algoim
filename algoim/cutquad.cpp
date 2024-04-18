@@ -74,8 +74,8 @@ void calc_cut_quad(T (*phi)(jlcxx::ArrayRef<T>), int q, int bernstein_degree,
             real x = roots[i];
             real poly, dpoly;
             bernstein::bernsteinValueAndDerivative(phipoly.data(), bernstein_degree+1, Binomial::row(bernstein_degree), x, poly, dpoly);
-            std::cout << "poly (root test) = " << poly << std::endl;
-            //assert( fabs(poly) < 1e-12 );
+            //std::cout << "poly (root test) = " << poly << std::endl;
+            assert( fabs(poly) < 1e-12 );
             dpoly > 0 ? surf_wts.push_back(-nrm_fac[0]) : surf_wts.push_back(nrm_fac[0]);
             surf_pts.push_back(x_min[0] + x*(x_max[0] - x_min[0]));
         }
@@ -323,8 +323,7 @@ void cut_surf_quad(T (*phi)(jlcxx::ArrayRef<T>), int q, int bernstein_degree,
             // evaluate the poly derivative to determine sign of weight 
             real x = roots[i];
             real poly, dpoly;
-            bernstein::bernsteinValueAndDerivative(phipoly.data(), bernstein_degree+1, Binomial::row(bernstein_degree), x, poly, dpoly);
-            std::cout << "poly (root test) = " << poly << std::endl;
+            bernstein::bernsteinValueAndDerivative(phipoly.data(), bernstein_degree+1, Binomial::row(bernstein_degree), x, poly, dpoly);            
             //assert( fabs(poly) < 1e-12 );
             dpoly > 0 ? surf_wts.push_back(-nrm_fac[0]) : surf_wts.push_back(nrm_fac[0]);
             surf_pts.push_back(x_min[0] + x*(x_max[0] - x_min[0]));
